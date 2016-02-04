@@ -1,8 +1,10 @@
-## Put comments here that give an overall description of what your
-## functions do
+# Matrix inversion is usually a costly computation and there may be some benefit
+# to caching the inverse of a matrix rather than compute it repeatedly. The
+# following two functions are used to cache the inverse of a matrix.
 
-## Write a short comment describing this function
-## makeCacheMatrix uses scoping rules and stores matrices in memory
+# makeCacheMatrix creates a list containing a function to
+# 1. set/get the value of the matrix
+# 2. set/get the value of inverse of the matrix
 makeCacheMatrix <- function(x = matrix()) {
   inverse <- NULL
   set <- function(Y){
@@ -16,20 +18,9 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## Write a short comment describing this function
-## cacheSolve uses corpcor, a library that avoids determinants and uses orthogonal descomposition
+# cacheSolve function returns the inverse of the matrix.
+# get if allready computed else computes
 cacheSolve <- function(x, ...) {
-  if(require("corpcor")){
-    print("corpcor is loaded correctly")
-  } else {
-    print("trying to install corpcor")
-    install.packages("corpcor")
-    if(require(corpcor)){
-      print("corpcor installed and loaded")
-    } else {
-      stop("could not install corpcor")
-    }
-  }
   inverse <- X$getinverse()
   if(!is.null(inverse)){
     message("matrix is in memory")
@@ -37,7 +28,7 @@ cacheSolve <- function(x, ...) {
   }
   message("inverse is not in memory so the inverse (if exist) is gonna be computed")
   data <- X$get()
-  inverse <- pseudoinverse(data, ...)
+  inverse <- solve(data)
   X$setinverse(inverse)
   inverse
 }
